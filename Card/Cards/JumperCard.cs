@@ -10,14 +10,14 @@ namespace Card
     {
         public override void LcStart()
         {
-            state.SubscribeTrigger(this, ETrigger.onDraw);
+            State.SubscribeTrigger(this, ETrigger.onDraw);
         }
 
         public override void OnOtherDraw(BaseCard card)
         {
-            if(currentZone == Zone.Battlefield)
+            if(CurrentZone == Zone.Battlefield)
             {
-                state.SendEvent(new MoveCardEvent(card, Zone.Hand, Zone.Battlefield));
+                State.SendEvent(new MoveCardEvent(card, Zone.Hand, Zone.Battlefield));
             }
         } 
     }

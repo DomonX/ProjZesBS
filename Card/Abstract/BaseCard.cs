@@ -8,25 +8,25 @@ namespace Card
 {
     abstract class BaseCard : TriggerObserver
     {
-        public PlayerIds ownerId = PlayerIds.None;
-        public PlayerIds controllerId = PlayerIds.None;
-        public Zone currentZone;
-        protected IMatch state;
+        public PlayerIds OwnerId { get; set; } = PlayerIds.None ;
+        public PlayerIds ControllerId { get; set; } = PlayerIds.None;
+        public Zone CurrentZone { get; set; }
 
-        public void ConnectState(IMatch state)
-        {
-            this.state = state;
-            LcStart();
+        public IMatch State {
+            get => _state;
+            set {
+                _state = value;
+                LcStart(); 
+            } 
         }
 
-        public virtual void LcStart()
-        {
+        private IMatch _state;
 
-        }
+        public virtual void LcStart() { }
 
         public virtual void LcEnd()
         {
-            state.UnSubsribeTrigger(this);
+            State.UnSubsribeTrigger(this);
         }
 
         public void ActionMove(Zone src, Zone dest, int position = 0)
@@ -34,7 +34,7 @@ namespace Card
             ActionPut(src, dest, position);
             if(src == Zone.Hand && dest == Zone.Battlefield)
             {
-                controllerId = ownerId;
+                ControllerId = OwnerId;
                 OnPlay();
             }
 
@@ -51,7 +51,7 @@ namespace Card
             if(src == Zone.Deck && dest == Zone.Hand)
             {
                 OnDraw();
-                state.SignalTrigger(this, ETrigger.onDraw);
+                State.SignalTrigger(this, ETrigger.onDraw);
             }
         }
 

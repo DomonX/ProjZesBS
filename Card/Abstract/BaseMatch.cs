@@ -7,39 +7,39 @@ namespace Card
     abstract class BaseMatch : IMatch
     {
 
-        private readonly Player player;
-        private readonly Player opponent;
+        public Player Player { get; private set; }
+        public Player Opponent { get; private set; }
 
         public BaseMatch()
         {
-            player = new Player((int)PlayerIds.Player);
-            opponent = new Player((int)PlayerIds.Opponent);
+            Player = new Player(PlayerIds.Player);
+            Opponent = new Player(PlayerIds.Opponent);
         }
 
         public Player GetPlayer(PlayerIds id)
         {
-            return player.GetId() == (int)id ? player : opponent;
+            return Player.Id == id ? Player : Opponent;
         }
 
         public Player GetOpponent(PlayerIds id)
         {
-            return player.GetId() == (int)id ? opponent : player;
+            return Player.Id == id ? Opponent : Player;
         }
 
         public void LoadDeck(PlayerIds playerId, List<BaseCard> deck)
         {
             foreach(BaseCard card in deck)
             {
-                card.ownerId = playerId;
-                card.ConnectState(this);
+                card.OwnerId = playerId;
+                card.State = this;
             }
 
-            GetPlayer(playerId).deck = deck;
+            GetPlayer(playerId).Deck = deck;
         }
 
         public void DrawCard(PlayerIds id)
         {
-            GetPlayer(id).deck[0].ActionMove(Zone.Deck, Zone.Hand);
+            GetPlayer(id).Deck[0].ActionMove(Zone.Deck, Zone.Hand);
         }
 
         public abstract T SendEvent<T>(IEvent<T> e);

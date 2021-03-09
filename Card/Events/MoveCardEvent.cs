@@ -21,11 +21,10 @@ namespace Card
         }
         public object Activate(BaseMatch match)
         {
-            Player p = match.GetPlayer(card.ownerId);
-            // GetZoneAsList(p, Zone.Battlefield).Insert(0, token);
+            Player p = match.GetPlayer(card.OwnerId);
             GetZoneAsList(p, src).Remove(card);
             GetZoneAsList(p, dest).Insert(pos, card);
-            card.currentZone = dest;
+            card.CurrentZone = dest;
             return null;
         }
 
@@ -37,11 +36,11 @@ namespace Card
                 case Zone.Battlefield:
                     return p.battlefield;
                 case Zone.Deck:
-                    return p.deck;
+                    return p.Deck;
                 case Zone.Graveyard:
                     return p.graveyard;
                 case Zone.Hand:
-                    return p.hand;
+                    return p.Hand;
                 default:
                     throw new Exception();
             }

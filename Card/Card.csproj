@@ -44,10 +44,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\BaseCard.cs" />
+    <Compile Include="Cards\EmptyCard.cs" />
     <Compile Include="Cards\JumperCard.cs" />
     <Compile Include="Core\Card.cs" />
-    <Compile Include="Cards\ConcreteCard.cs" />
+    <Compile Include="Cards\SummonerCard.cs" />
     <Compile Include="Core\TriggerObserver.cs" />
+    <Compile Include="Events\CreateCardEvent.cs" />
     <Compile Include="Events\MoveCardEvent.cs" />
     <Compile Include="Abstract\IEvent.cs" />
     <Compile Include="Enums\EZone.cs" />

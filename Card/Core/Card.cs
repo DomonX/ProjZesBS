@@ -10,7 +10,7 @@ namespace Card
     {
         override protected void ActionPut(Zone src, Zone dest, int position)
         {
-            state.SendEvent(new MoveCardEvent(this, src, dest, position));
+            State.SendEvent(new MoveCardEvent(this, src, dest, position));
         }
     }
 }

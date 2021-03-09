@@ -16,14 +16,14 @@ namespace Card
 
         public override void SignalTrigger(BaseCard card, ETrigger trigger)
         {
-            foreach(TriggerObserver observer in getSubscribers(trigger)) {
+            foreach(TriggerObserver observer in GetSubscribers(trigger)) {
                 SendSignal(card, trigger, observer);
             }
         }
 
         override public void SubscribeTrigger(TriggerObserver observer, ETrigger trigger)
         {
-            List<TriggerObserver> subs = getSubscribers(trigger);
+            List<TriggerObserver> subs = GetSubscribers(trigger);
             if (subs.Contains(observer))
             {
                 System.Console.Error.WriteLine("Subsribtion already exists");
@@ -61,7 +61,7 @@ namespace Card
             }
         }
 
-        private List<TriggerObserver> getSubscribers(ETrigger trigger)
+        private List<TriggerObserver> GetSubscribers(ETrigger trigger)
         {
             if (!subscriptions.ContainsKey(trigger))
             {
