@@ -9,8 +9,8 @@ namespace Card
     interface IMatch
     {
         T SendEvent<T>(IEvent<T> e);
-        void SubscribeTrigger(TriggerObserver observer, ETrigger trigger);
-        void UnSubsribeTrigger(TriggerObserver observer);
+        void SubscribeTrigger(ITriggerObserver observer, ETrigger trigger);
+        void UnSubsribeTrigger(ITriggerObserver observer);
 
         void SignalTrigger(BaseCard card, ETrigger trigger);
     }

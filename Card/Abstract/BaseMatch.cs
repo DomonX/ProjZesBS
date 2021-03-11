@@ -43,8 +43,8 @@ namespace Card
         }
 
         public abstract T SendEvent<T>(IEvent<T> e);
-        public abstract void SubscribeTrigger(TriggerObserver observer, ETrigger trigger);
-        public abstract void UnSubsribeTrigger(TriggerObserver observer);
+        public abstract void SubscribeTrigger(ITriggerObserver observer, ETrigger trigger);
+        public abstract void UnSubsribeTrigger(ITriggerObserver observer);
         public abstract void SignalTrigger(BaseCard card, ETrigger trigger);
     }
 }

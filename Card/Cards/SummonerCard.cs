@@ -8,6 +8,11 @@ namespace Card
 {
     class SummonerCard : Card
     {
+        protected override float Evaluate()
+        {
+            return 1.2f;
+        }
+
         override protected void OnDraw()
         {
             // ActionMove(Zone.Hand, Zone.Battlefield, 0); // <--- Do activate onPlay()
@@ -17,6 +22,16 @@ namespace Card
         override protected void OnPlay()
         {
             State.SendEvent(new CreateCardEvent(this, new EmptyCard()));
+        }
+
+        protected override int SetAttack()
+        {
+            return 2;
+        }
+
+        protected override int SetHealth()
+        {
+            return 1;
         }
     }
 }

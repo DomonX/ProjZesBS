@@ -8,7 +8,7 @@ namespace Card
 {
     class Match : BaseMatch
     {
-        protected Dictionary<ETrigger, List<TriggerObserver>> subscriptions = new Dictionary<ETrigger, List<TriggerObserver>>();
+        protected Dictionary<ETrigger, List<ITriggerObserver>> subscriptions = new Dictionary<ETrigger, List<ITriggerObserver>>();
         override public T SendEvent<T>(IEvent<T> e)
         {
             return ((Event<T>)e).Activate(this);
@@ -16,14 +16,14 @@ namespace Card
 
         public override void SignalTrigger(BaseCard card, ETrigger trigger)
         {
-            foreach(TriggerObserver observer in GetSubscribers(trigger)) {
+            foreach(ITriggerObserver observer in GetSubscribers(trigger)) {
                 SendSignal(card, trigger, observer);
             }
         }
 
-        override public void SubscribeTrigger(TriggerObserver observer, ETrigger trigger)
+        override public void SubscribeTrigger(ITriggerObserver observer, ETrigger trigger)
         {
-            List<TriggerObserver> subs = GetSubscribers(trigger);
+            List<ITriggerObserver> subs = GetSubscribers(trigger);
             if (subs.Contains(observer))
             {
                 System.Console.Error.WriteLine("Subsribtion already exists");
@@ -32,15 +32,15 @@ namespace Card
             subs.Add(observer);
         }
 
-        override public void UnSubsribeTrigger(TriggerObserver observer)
+        override public void UnSubsribeTrigger(ITriggerObserver observer)
         {
-            foreach (KeyValuePair<ETrigger, List<TriggerObserver>> observers in subscriptions)
+            foreach (KeyValuePair<ETrigger, List<ITriggerObserver>> observers in subscriptions)
             {
                 observers.Value.Remove(observer);
             }
         }
 
-        protected void SendSignal(BaseCard card, ETrigger trigger, TriggerObserver observer)
+        protected void SendSignal(BaseCard card, ETrigger trigger, ITriggerObserver observer)
         {
             switch(trigger)
             {
@@ -61,11 +61,11 @@ namespace Card
             }
         }
 
-        private List<TriggerObserver> GetSubscribers(ETrigger trigger)
+        private List<ITriggerObserver> GetSubscribers(ETrigger trigger)
         {
             if (!subscriptions.ContainsKey(trigger))
             {
-                subscriptions[trigger] = new List<TriggerObserver>();
+                subscriptions[trigger] = new List<ITriggerObserver>();
             }
             return subscriptions[trigger];
         }

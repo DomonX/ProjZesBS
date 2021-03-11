@@ -8,7 +8,7 @@ namespace Card
 {
     class JumperCard : Card
     {
-        public override void LcStart()
+        protected override void SetTriggers()
         {
             State.SubscribeTrigger(this, ETrigger.onDraw);
         }
@@ -19,6 +19,21 @@ namespace Card
             {
                 State.SendEvent(new MoveCardEvent(card, Zone.Hand, Zone.Battlefield));
             }
-        } 
+        }
+
+        protected override int SetHealth()
+        {
+            return 1;
+        }
+
+        protected override int SetAttack()
+        {
+            return 0;
+        }
+
+        protected override float Evaluate()
+        {
+            return 5;
+        }
     }
 }

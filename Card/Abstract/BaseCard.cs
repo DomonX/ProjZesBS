@@ -6,85 +6,60 @@ using System.Threading.Tasks;
 
 namespace Card
 {
-    abstract class BaseCard : TriggerObserver
+    abstract class BaseCard : Entity, ITriggerObserver
     {
         public PlayerIds OwnerId { get; set; } = PlayerIds.None ;
         public PlayerIds ControllerId { get; set; } = PlayerIds.None;
         public Zone CurrentZone { get; set; }
-
-        public IMatch State {
-            get => _state;
-            set {
-                _state = value;
-                LcStart(); 
-            } 
-        }
+        public int Cost { get; set; }
+        public IMatch State { get => _state; set { _state = value; LcStart(); } }
 
         private IMatch _state;
 
-        public virtual void LcStart() { }
+        public void LcStart() {
+            SetTriggers();
+            SetStatistics();
+        }
 
-        public virtual void LcEnd()
+        public void LcEnd()
         {
             State.UnSubsribeTrigger(this);
         }
 
-        public void ActionMove(Zone src, Zone dest, int position = 0)
-        {
-            ActionPut(src, dest, position);
-            if(src == Zone.Hand && dest == Zone.Battlefield)
-            {
-                ControllerId = OwnerId;
-                OnPlay();
-            }
+        public abstract void ActionMove(Zone src, Zone dest, int position = 0);
 
-            if(src == Zone.Battlefield && dest == Zone.Graveyard)
-            {
-                OnDie();
-            }
+        public abstract void ActionAttack();
 
-            if(src == Zone.Battlefield && dest == Zone.Hand)
-            {
-                OnBounce();
-            }
+        public abstract void ActionUse();
 
-            if(src == Zone.Deck && dest == Zone.Hand)
-            {
-                OnDraw();
-                State.SignalTrigger(this, ETrigger.onDraw);
-            }
-        }
+        public virtual void OnOtherPlay(BaseCard triggerSource) { }
 
-        public void ActionAttack() 
-        { 
-        
-        }
+        public virtual void OnOtherDie(BaseCard triggerSource) { }
 
-        public void ActionUse()
-        {
+        public virtual void OnOtherDraw(BaseCard triggerSource) { }
 
-        }
+        public virtual void OnOtherBounce(BaseCard triggerSource) { }
+
+        protected abstract int SetHealth();
+        protected abstract int SetAttack();
+        protected virtual void SetTriggers() { }
 
         protected abstract void ActionPut(Zone src, Zone dest, int position);
 
-        protected virtual void OnPlay()
+        protected virtual void OnPlay() { }
+
+        protected virtual void OnDie() { }
+
+        protected virtual void OnBounce() { }
+
+        protected virtual void OnDraw() { }
+
+        protected abstract float Evaluate();
+        private void SetStatistics()
         {
-            Console.WriteLine("onPlay()");
+            BaseHealth = SetHealth();
+            Attack = SetAttack();
         }
 
-        protected virtual void OnDie()
-        {
-            Console.WriteLine("onDie()");
-        }
-
-        protected virtual void OnBounce()
-        {
-            Console.WriteLine("onBounce()");
-        }
-
-        protected virtual void OnDraw()
-        {
-            Console.WriteLine("onDraw()");
-        }
     }
 }

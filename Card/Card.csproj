@@ -44,11 +44,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\BaseCard.cs" />
+    <Compile Include="Abstract\Entity.cs" />
     <Compile Include="Cards\EmptyCard.cs" />
     <Compile Include="Cards\JumperCard.cs" />
     <Compile Include="Core\Card.cs" />
     <Compile Include="Cards\SummonerCard.cs" />
-    <Compile Include="Core\TriggerObserver.cs" />
+    <Compile Include="Core\ITriggerObserver.cs" />
     <Compile Include="Events\CreateCardEvent.cs" />
     <Compile Include="Events\MoveCardEvent.cs" />
     <Compile Include="Abstract\IEvent.cs" />

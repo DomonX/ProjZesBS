@@ -17,6 +17,7 @@ namespace Card
         }
         public BaseCard Activate(BaseMatch match)
         {
+            creation.State = match;
             match.GetPlayer(source.ControllerId).battlefield.Add(creation);
             return creation;
         }
